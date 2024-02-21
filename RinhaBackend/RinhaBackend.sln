@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RinhaBackend.Api", "RinhaBackend.Api\RinhaBackend.Api.csproj", "{3D0089F1-3928-4EE6-9300-CFA046840CC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13BFBDB1-13F0-44E0-AC9D-9D99D01DCB6C}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RinhaBackend.ReverseProxy", "RinhaBackend.ReverseProxy\RinhaBackend.ReverseProxy.csproj", "{3527672A-5FB4-407C-9B24-F7B502F64122}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D0089F1-3928-4EE6-9300-CFA046840CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D0089F1-3928-4EE6-9300-CFA046840CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D0089F1-3928-4EE6-9300-CFA046840CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D0089F1-3928-4EE6-9300-CFA046840CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3527672A-5FB4-407C-9B24-F7B502F64122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3527672A-5FB4-407C-9B24-F7B502F64122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3527672A-5FB4-407C-9B24-F7B502F64122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3527672A-5FB4-407C-9B24-F7B502F64122}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
