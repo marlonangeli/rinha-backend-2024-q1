@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RinhaBackend.Api.Database.Context;
@@ -11,9 +12,11 @@ using RinhaBackend.Api.Database.Context;
 namespace RinhaBackend.Api.Migrations
 {
     [DbContext(typeof(RinhaBackendContext))]
-    partial class RinhaBackendContextModelSnapshot : ModelSnapshot
+    [Migration("20240222021808_AddNameColumn")]
+    partial class AddNameColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +38,8 @@ namespace RinhaBackend.Api.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<double>("SaldoInicial")
                         .HasColumnType("double precision");

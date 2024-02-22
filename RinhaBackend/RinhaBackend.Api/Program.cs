@@ -22,9 +22,6 @@ builder.Services.AddDbContext<RinhaBackendContext>(options =>
 
 var app = builder.Build();
 
-var context = app.Services.GetRequiredService<RinhaBackendContext>();
-await context.Database.MigrateAsync();
-
 app.MapEndpoints();
 
 if (app.Environment.IsDevelopment())

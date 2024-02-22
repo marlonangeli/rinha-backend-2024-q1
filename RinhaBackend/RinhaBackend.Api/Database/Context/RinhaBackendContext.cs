@@ -41,6 +41,11 @@ public class RinhaBackendContext : DbContext
         modelBuilder.Entity<Cliente>().HasKey(c => c.Id);
 
         modelBuilder.Entity<Cliente>()
+            .Property(c => c.Nome)
+            .IsRequired()
+            .HasMaxLength(32);
+
+        modelBuilder.Entity<Cliente>()
             .Property(c => c.Limite)
             .IsRequired();
 
@@ -52,40 +57,6 @@ public class RinhaBackendContext : DbContext
             .HasMany(c => c.Transacoes)
             .WithOne(t => t.Cliente)
             .HasForeignKey(t => t.ClienteId);
-
-        modelBuilder.Entity<Cliente>().HasData(new List<Cliente>
-        {
-            new()
-            {
-                Id = 1,
-                Limite = 1000_00,
-                SaldoInicial = 0
-            },
-            new()
-            {
-                Id = 2,
-                Limite = 800_00,
-                SaldoInicial = 0
-            },
-            new()
-            {
-                Id = 3,
-                Limite = 10_000_00,
-                SaldoInicial = 0
-            },
-            new()
-            {
-                Id = 4,
-                Limite = 100_000_00,
-                SaldoInicial = 0
-            },
-            new()
-            {
-                Id = 5,
-                Limite = 5_000_00,
-                SaldoInicial = 0
-            }
-        });
 
         base.OnModelCreating(modelBuilder);
     }

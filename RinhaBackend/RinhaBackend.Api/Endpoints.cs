@@ -10,6 +10,17 @@ public static class Endpoints
 {
     public static void MapEndpoints(this WebApplication app)
     {
+        app.MapPost("/clientes", async (
+            [FromBody] CreateCliente cliente,
+            [FromServices] RinhaBackendContext context) =>
+        {
+            var novoCliente = new Cliente(cliente.Nome, cliente.Limite, cliente.SaldoInicial);
+            await context.Clientes.AddAsync(novoCliente);
+            await context.SaveChangesAsync();
+
+            return Results.Created($"/clientes/{novoCliente.Id}", novoCliente);
+        }).WithName("AdicionarCliente").WithOpenApi();
+
         app.MapPost("/clientes/{id:int}/transacoes", async (
             [FromRoute] int id,
             [FromBody] CreateTransacao transacao,
@@ -31,7 +42,9 @@ public static class Endpoints
             await context.Transacoes.AddAsync(novaTransacao);
             await context.SaveChangesAsync();
 
-            var response = new SaldoTransacao(cliente.Saldo, cliente.Limite);
+            var saldo = cliente.Saldo + (novaTransacao.Tipo == 'd' ? -novaTransacao.Valor : novaTransacao.Valor);
+
+            var response = new SaldoTransacao(saldo, cliente.Limite);
 
             return Results.Created($"/clientes/{id}/transacoes/{novaTransacao.Id}", response);
         }).WithName("AdicionarTransacao").WithOpenApi();
@@ -40,18 +53,28 @@ public static class Endpoints
             [FromRoute] int id,
             [FromServices] RinhaBackendContext context) =>
         {
-            var cliente = await context.Clientes
-                .Include(c => c.Transacoes)
+            var extrato = await context.Clientes
+                .Include(c => c.Transacoes.Where(t => t.ClienteId == id))
                 .AsNoTracking()
                 .AsSplitQuery()
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .Where(c => c.Id == id)
+                .Select(s => new Extrato()
+                {
+                    Saldo = new Saldo()
+                    {
+                        Total = s.Saldo,
+                        Limite = s.Limite
+                    },
+                    Transacoes = s.Transacoes.Select(t => new TransacaoResponse()
+                    {
+                        Valor = t.Valor,
+                        Data = t.Data,
+                        Descricao = t.Descricao,
+                        Tipo = t.Tipo
+                    }).ToList()
+                }).SingleOrDefaultAsync();
 
-            if (cliente == null)
-                return Results.NotFound();
-
-            var extrato = Extrato.FromCliente(cliente);
-
-            return Results.Ok(extrato);
+            return extrato == null ? Results.NotFound() : Results.Ok(extrato);
         }).WithName("Extrato").WithOpenApi();
     }
 }
