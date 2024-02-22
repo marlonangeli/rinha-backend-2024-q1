@@ -2,20 +2,30 @@
 
 services:
   reverseproxy:
-    image: rinhabackend.reverseproxy
+    image: marlonangeli/rinha-reverseproxy
     build:
       context: .
       dockerfile: RinhaBackend.ReverseProxy/Dockerfile
     ports:
       - "9999:8080"
       - "443:443"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     depends_on:
       - api1
       - api2
       - postgres
+    deploy:
+        resources:
+            limits:
+              cpus: "0.3"
+              memory: "100MB"
 
   api1: &api
-    image: rinhabackend.api
+    image: marlonangeli/rinha-api
     hostname: api1
     build:
       context: .
@@ -28,8 +38,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.6"
-          memory: "200MB"
+          cpus: "0.35"
+          memory: "125MB"
 
   api2:
     <<: *api
@@ -52,8 +62,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.13"
-          memory: "140MB"
+          cpus: "0.5"
+          memory: "200MB"
 
 networks:
   default:

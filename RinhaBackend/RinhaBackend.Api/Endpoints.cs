@@ -46,7 +46,7 @@ public static class Endpoints
 
             var response = new SaldoTransacao(saldo, cliente.Limite);
 
-            return Results.Created($"/clientes/{id}/transacoes/{novaTransacao.Id}", response);
+            return Results.Ok(response);
         }).WithName("AdicionarTransacao").WithOpenApi();
 
         app.MapGet("/clientes/{id:int}/extrato", async (

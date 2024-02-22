@@ -10,13 +10,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<RinhaBackendContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
-    if (builder.Environment.IsDevelopment())
-    {
-        options.EnableDetailedErrors();
-        options.EnableSensitiveDataLogging();
-        options.LogTo(Console.WriteLine);
-    }
-
     options.EnableServiceProviderCaching();
 });
 

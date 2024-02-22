@@ -5,7 +5,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["RinhaBackeNd.ReverseProxy/RinhaBackend.ReverseProxy.csproj", "RinhaBackend.ReverseProxy/"]
+COPY ["RinhaBackend.ReverseProxy/RinhaBackend.ReverseProxy.csproj", "RinhaBackend.ReverseProxy/"]
 RUN dotnet restore "RinhaBackend.ReverseProxy/RinhaBackend.ReverseProxy.csproj"
 COPY . .
 WORKDIR "/src/RinhaBackeNd.ReverseProxy"
